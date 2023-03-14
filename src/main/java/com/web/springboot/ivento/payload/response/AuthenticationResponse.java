@@ -1,6 +1,7 @@
 package com.web.springboot.ivento.payload.response;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * @author mokht
@@ -216,6 +217,37 @@ public class AuthenticationResponse {
 	 */
 	public void setRefreshToken(String refreshToken) {
 		this.refreshToken = refreshToken;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(accessToken, email, id, image, isBlocked, lastLoggedIn, lastUpdated, refreshToken, role,
+				tokenType, username);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AuthenticationResponse other = (AuthenticationResponse) obj;
+		return Objects.equals(accessToken, other.accessToken) && Objects.equals(email, other.email)
+				&& Objects.equals(id, other.id) && Objects.equals(image, other.image)
+				&& Objects.equals(isBlocked, other.isBlocked) && Objects.equals(lastLoggedIn, other.lastLoggedIn)
+				&& Objects.equals(lastUpdated, other.lastUpdated) && Objects.equals(refreshToken, other.refreshToken)
+				&& Objects.equals(role, other.role) && Objects.equals(tokenType, other.tokenType)
+				&& Objects.equals(username, other.username);
+	}
+
+	@Override
+	public String toString() {
+		return "AuthenticationResponse [accessToken=" + accessToken + ", refreshToken=" + refreshToken + ", tokenType="
+				+ tokenType + ", id=" + id + ", username=" + username + ", email=" + email + ", isBlocked=" + isBlocked
+				+ ", image=" + image + ", role=" + role + ", lastLoggedIn=" + lastLoggedIn + ", lastUpdated="
+				+ lastUpdated + "]";
 	}
 
 }

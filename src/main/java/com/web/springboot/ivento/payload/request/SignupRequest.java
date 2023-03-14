@@ -4,6 +4,7 @@
 package com.web.springboot.ivento.payload.request;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import com.web.springboot.ivento.model.ERole;
 
@@ -146,6 +147,33 @@ public class SignupRequest {
 	 */
 	public void setLastUpdated(LocalDateTime lastUpdated) {
 		this.lastUpdated = lastUpdated;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(email, image, isBlocked, lastLoggedIn, lastUpdated, password, role, username);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SignupRequest other = (SignupRequest) obj;
+		return Objects.equals(email, other.email) && Objects.equals(image, other.image)
+				&& Objects.equals(isBlocked, other.isBlocked) && Objects.equals(lastLoggedIn, other.lastLoggedIn)
+				&& Objects.equals(lastUpdated, other.lastUpdated) && Objects.equals(password, other.password)
+				&& role == other.role && Objects.equals(username, other.username);
+	}
+
+	@Override
+	public String toString() {
+		return "SignupRequest [username=" + username + ", email=" + email + ", password=" + password + ", isBlocked="
+				+ isBlocked + ", image=" + image + ", role=" + role + ", lastLoggedIn=" + lastLoggedIn
+				+ ", lastUpdated=" + lastUpdated + "]";
 	}
 
 }
