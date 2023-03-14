@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.web.springboot.ivento.payload.request.SignupRequest;
 import com.web.springboot.ivento.payload.request.UserRequest;
 import com.web.springboot.ivento.payload.response.MessageResponse;
+import com.web.springboot.ivento.payload.response.UserResponse;
 import com.web.springboot.ivento.properties.Literals;
 import com.web.springboot.ivento.service.user.UserServiceImpl;
 
@@ -53,7 +54,7 @@ public class UserController {
 
 	@GetMapping(value = "/find-user")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
-	public ResponseEntity<UserRequest> findById(@RequestParam Long id) {
+	public ResponseEntity<UserResponse> findById(@RequestParam Long id) {
 
 		return new ResponseEntity<>(userService.findUserResponseById(id), HttpStatus.OK);
 

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.web.springboot.ivento.model.ProductEntity;
 import com.web.springboot.ivento.payload.request.ProductRequest;
+import com.web.springboot.ivento.payload.response.ProductResponse;
 import com.web.springboot.ivento.repository.ProductRepository;
 import com.web.springboot.ivento.service.exception.ProductException;
 import com.web.springboot.ivento.service.exception.ProductNotFoundException;
@@ -41,14 +42,14 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<ProductRequest> findAllProduct() {
+	public List<ProductResponse> findAllProduct() {
 
 		List<ProductEntity> lProductEntities = productRepository.findAll();
-		List<ProductRequest> lProduct = new ArrayList<>();
+		List<ProductResponse> lProduct = new ArrayList<>();
 
 		for (ProductEntity entity : lProductEntities) {
 
-			ProductRequest p = new ProductRequest();
+			ProductResponse p = new ProductResponse();
 			p.setId(entity.getId());
 			p.setProductCode(entity.getProductCode());
 			p.setName(entity.getName());
@@ -64,7 +65,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public ProductRequest findProductById(Long id) {
+	public ProductResponse findProductById(Long id) {
 
 		ProductEntity entity = productRepository.findById(id).orElse(null);
 
@@ -139,9 +140,9 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<ProductRequest> searchProducts(String searchRequest) {
+	public List<ProductResponse> searchProducts(String searchRequest) {
 
-		List<ProductRequest> lProducts = new ArrayList<>();
+		List<ProductResponse> lProducts = new ArrayList<>();
 		List<ProductEntity> entities = productRepository.searchProducts(searchRequest).orElse(Collections.emptyList());
 
 		for (ProductEntity entity : entities) {
@@ -160,17 +161,17 @@ public class ProductServiceImpl implements ProductService {
 
 	}
 
-	private ProductRequest composeProductPojo(ProductEntity entity) {
-		ProductRequest productRequest = new ProductRequest();
-		productRequest.setId(entity.getId());
-		productRequest.setProductCode(entity.getProductCode());
-		productRequest.setName(entity.getName());
-		productRequest.setBrand(entity.getBrand());
-		productRequest.setPrice(entity.getPrice());
-		productRequest.setQuantity(entity.getQuantity());
-		productRequest.setLastUpdate(entity.getLastUpdate());
+	private ProductResponse composeProductPojo(ProductEntity entity) {
+		ProductResponse productResponse = new ProductResponse();
+		productResponse.setId(entity.getId());
+		productResponse.setProductCode(entity.getProductCode());
+		productResponse.setName(entity.getName());
+		productResponse.setBrand(entity.getBrand());
+		productResponse.setPrice(entity.getPrice());
+		productResponse.setQuantity(entity.getQuantity());
+		productResponse.setLastUpdate(entity.getLastUpdate());
 
-		return productRequest;
+		return productResponse;
 	}
 
 }

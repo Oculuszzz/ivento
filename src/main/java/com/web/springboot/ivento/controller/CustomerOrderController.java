@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.web.springboot.ivento.payload.request.CustomerOrderRequest;
+import com.web.springboot.ivento.payload.response.CustomerOrderResponse;
 import com.web.springboot.ivento.payload.response.MessageResponse;
 import com.web.springboot.ivento.properties.Literals;
 import com.web.springboot.ivento.service.login.customerorder.CustomerOrderServiceImpl;
@@ -44,7 +45,7 @@ public class CustomerOrderController {
 
 	@GetMapping
 	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
-	public ResponseEntity<List<CustomerOrderRequest>> findAll() {
+	public ResponseEntity<List<CustomerOrderResponse>> findAll() {
 
 		return new ResponseEntity<>(customerOrderService.findAllOrder(), HttpStatus.OK);
 
@@ -52,7 +53,7 @@ public class CustomerOrderController {
 
 	@GetMapping(value = "/find-customer-order")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
-	public ResponseEntity<CustomerOrderRequest> findById(@RequestParam Long id) {
+	public ResponseEntity<CustomerOrderResponse> findById(@RequestParam Long id) {
 
 		return new ResponseEntity<>(customerOrderService.findOrderById(id), HttpStatus.OK);
 
@@ -60,7 +61,7 @@ public class CustomerOrderController {
 
 	@GetMapping(value = "search/")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
-	public ResponseEntity<List<CustomerOrderRequest>> search(@RequestParam String search) {
+	public ResponseEntity<List<CustomerOrderResponse>> search(@RequestParam String search) {
 
 		return new ResponseEntity<>(customerOrderService.searchByCustomerName(search), HttpStatus.OK);
 

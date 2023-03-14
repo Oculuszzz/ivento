@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.web.springboot.ivento.payload.request.ProductRequest;
 import com.web.springboot.ivento.payload.response.MessageResponse;
+import com.web.springboot.ivento.payload.response.ProductResponse;
 import com.web.springboot.ivento.properties.Literals;
 import com.web.springboot.ivento.service.product.ProductServiceImpl;
 
@@ -45,7 +46,7 @@ public class ProductController {
 
 	@GetMapping(value = "")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
-	public ResponseEntity<List<ProductRequest>> findAll() {
+	public ResponseEntity<List<ProductResponse>> findAll() {
 
 		return new ResponseEntity<>(productService.findAllProduct(), HttpStatus.OK);
 
@@ -53,7 +54,7 @@ public class ProductController {
 
 	@GetMapping(value = "/find-product")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
-	public ResponseEntity<ProductRequest> findById(@RequestParam Long id) {
+	public ResponseEntity<ProductResponse> findById(@RequestParam Long id) {
 
 		return new ResponseEntity<>(productService.findProductById(id), HttpStatus.OK);
 
@@ -61,7 +62,7 @@ public class ProductController {
 
 	@GetMapping(value = "search/")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
-	public ResponseEntity<List<ProductRequest>> search(@RequestParam String search) {
+	public ResponseEntity<List<ProductResponse>> search(@RequestParam String search) {
 
 		return new ResponseEntity<>(productService.searchProducts(search), HttpStatus.OK);
 

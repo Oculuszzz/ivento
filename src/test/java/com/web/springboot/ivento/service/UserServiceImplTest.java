@@ -35,6 +35,7 @@ import com.web.springboot.ivento.model.ERole;
 import com.web.springboot.ivento.model.UserEntity;
 import com.web.springboot.ivento.payload.request.SignupRequest;
 import com.web.springboot.ivento.payload.request.UserRequest;
+import com.web.springboot.ivento.payload.response.UserResponse;
 import com.web.springboot.ivento.properties.Literals;
 import com.web.springboot.ivento.repository.UserRepository;
 import com.web.springboot.ivento.service.exception.UserException;
@@ -150,7 +151,7 @@ class UserServiceImplTest {
 		given(userRepositoryTest.findById(user.getId())).willReturn(optional);
 
 		// When
-		UserRequest result = underTest.findUserResponseById(user.getId());
+		UserResponse result = underTest.findUserResponseById(user.getId());
 
 		// Then
 		assertNotNull(result);
@@ -287,7 +288,7 @@ class UserServiceImplTest {
 		// given
 		String searchUsername = "XEA";
 
-		UserRequest expectedResult = new UserRequest();
+		UserResponse expectedResult = new UserResponse();
 		expectedResult.setId(3L);
 		expectedResult.setUsername(searchUsername);
 		expectedResult.setEmail("xea@test.com");
@@ -311,7 +312,7 @@ class UserServiceImplTest {
 		given(userRepositoryTest.findByUsername("XEA")).willReturn(Optional.of(entity));
 
 		// when
-		UserRequest result = underTest.findUserResponseByUsername(searchUsername);
+		UserResponse result = underTest.findUserResponseByUsername(searchUsername);
 
 		// then
 		assertEquals(expectedResult, result);
@@ -328,7 +329,8 @@ class UserServiceImplTest {
 
 		// When
 		// Then
-		assertThatThrownBy(() -> underTest.findUserResponseByUsername(searchUsername)).isInstanceOf(UserNotFoundException.class)
+		assertThatThrownBy(() -> underTest.findUserResponseByUsername(searchUsername))
+				.isInstanceOf(UserNotFoundException.class)
 				.hasMessage(messageUtilsTest.getMessage(Literals.ERROR_USER_NOT_FOUND));
 
 	}
@@ -343,7 +345,7 @@ class UserServiceImplTest {
 		// given
 		String searchUsername = "XEA@test.com";
 
-		UserRequest expectedResult = new UserRequest();
+		UserResponse expectedResult = new UserResponse();
 		expectedResult.setId(3L);
 		expectedResult.setUsername("XEA");
 		expectedResult.setEmail(searchUsername);
@@ -367,7 +369,7 @@ class UserServiceImplTest {
 		given(userRepositoryTest.findByEmail("XEA@test.com")).willReturn(Optional.of(entity));
 
 		// when
-		UserRequest result = underTest.findUserByEmail(searchUsername);
+		UserResponse result = underTest.findUserByEmail(searchUsername);
 
 		// then
 		assertEquals(expectedResult, result);

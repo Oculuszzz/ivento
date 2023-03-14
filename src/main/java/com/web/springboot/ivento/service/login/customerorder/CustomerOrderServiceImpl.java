@@ -14,7 +14,9 @@ import com.web.springboot.ivento.model.CustomerOrderEntity;
 import com.web.springboot.ivento.model.OrderedProductEntity;
 import com.web.springboot.ivento.payload.request.CustomerOrderRequest;
 import com.web.springboot.ivento.payload.request.OrderedProductRequest;
-import com.web.springboot.ivento.payload.request.ProductRequest;
+import com.web.springboot.ivento.payload.response.CustomerOrderResponse;
+import com.web.springboot.ivento.payload.response.OrderedProductResponse;
+import com.web.springboot.ivento.payload.response.ProductResponse;
 import com.web.springboot.ivento.properties.Literals;
 import com.web.springboot.ivento.repository.CustomerOrderRepository;
 import com.web.springboot.ivento.service.exception.CustomerOrderException;
@@ -52,14 +54,14 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
 	}
 
 	@Override
-	public List<CustomerOrderRequest> findAllOrder() {
+	public List<CustomerOrderResponse> findAllOrder() {
 
 		List<CustomerOrderEntity> entities = customerOrderRepository.findAll();
-		List<CustomerOrderRequest> lCustomerOrderRequests = new ArrayList<>();
+		List<CustomerOrderResponse> lCustomerOrderRequests = new ArrayList<>();
 
 		for (CustomerOrderEntity entity : entities) {
 
-			lCustomerOrderRequests.add(composeCustomerOrderRequest(entity));
+			lCustomerOrderRequests.add(composeCustomerOrderResponse(entity));
 
 		}
 
@@ -67,12 +69,12 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
 	}
 
 	@Override
-	public CustomerOrderRequest findOrderById(Long id) {
+	public CustomerOrderResponse findOrderById(Long id) {
 
 		CustomerOrderEntity entity = customerOrderRepository.findById(id).orElseThrow(
 				() -> new ProductNotFoundException(messageUtils.getMessage(Literals.ERROR_PRODUCT_NOT_FOUND)));
 
-		return composeCustomerOrderRequest(entity);
+		return composeCustomerOrderResponse(entity);
 
 	}
 
@@ -94,17 +96,17 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
 
 		for (OrderedProductRequest orderedProductRequest : customerOrderRequest.getProducts()) {
 
-			ProductRequest productRequest = productService.findProductById(orderedProductRequest.getProductId());
+			ProductResponse productResponse = productService.findProductById(orderedProductRequest.getProductId());
 
 			// Check requested product is exists or not in DB. If not throw exception
-			if (productRequest == null) {
+			if (productResponse == null) {
 
 				throw new ProductNotFoundException(messageUtils.getMessage(Literals.ERROR_PRODUCT_NOT_FOUND));
 
 			}
 
-			OrderedProductEntity entity = new OrderedProductEntity(productRequest.getId(),
-					productRequest.getProductCode(), productRequest.getName(), productRequest.getBrand(),
+			OrderedProductEntity entity = new OrderedProductEntity(productResponse.getId(),
+					productResponse.getProductCode(), productResponse.getName(), productResponse.getBrand(),
 					orderedProductRequest.getQuantity(), orderedProductRequest.getPrice(),
 					orderedProductRequest.getTotalPrice());
 
@@ -127,57 +129,57 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
 	}
 
 	@Override
-	public List<CustomerOrderRequest> searchByCustomerName(String search) {
+	public List<CustomerOrderResponse> searchByCustomerName(String search) {
 
-		List<CustomerOrderRequest> customerOrderRequests = new ArrayList<>();
+		List<CustomerOrderResponse> customerOrderResponses = new ArrayList<>();
 		List<CustomerOrderEntity> entities = customerOrderRepository.searchByCustomerName(search)
 				.orElse(Collections.emptyList());
 
 		for (CustomerOrderEntity entity : entities) {
 
-			customerOrderRequests.add(composeCustomerOrderRequest(entity));
+			customerOrderResponses.add(composeCustomerOrderResponse(entity));
 		}
 
-		return customerOrderRequests;
+		return customerOrderResponses;
 	}
 
-	private CustomerOrderRequest composeCustomerOrderRequest(CustomerOrderEntity entity) {
-		CustomerOrderRequest orderRequest = new CustomerOrderRequest();
-		orderRequest.setId(entity.getId());
-		orderRequest.setName(entity.getName());
-		orderRequest.setPhoneNumber(entity.getPhoneNumber());
-		orderRequest.setAddress(entity.getAddress());
-		orderRequest.setCompanyName(entity.getCompanyName());
-		orderRequest.setCompanyAddress(entity.getCompanyAddress());
-		orderRequest.setStatus(entity.getStatus());
-		orderRequest.setTotalPrice(entity.getTotalPrice());
-		orderRequest.setLastUpdate(entity.getLastUpdate());
-		orderRequest.setProducts(composeOrderedProductRequest(entity.getOrderedProducts()));
+	private CustomerOrderResponse composeCustomerOrderResponse(CustomerOrderEntity entity) {
+		CustomerOrderResponse customerOrderResponse = new CustomerOrderResponse();
+		customerOrderResponse.setId(entity.getId());
+		customerOrderResponse.setName(entity.getName());
+		customerOrderResponse.setPhoneNumber(entity.getPhoneNumber());
+		customerOrderResponse.setAddress(entity.getAddress());
+		customerOrderResponse.setCompanyName(entity.getCompanyName());
+		customerOrderResponse.setCompanyAddress(entity.getCompanyAddress());
+		customerOrderResponse.setStatus(entity.getStatus());
+		customerOrderResponse.setTotalPrice(entity.getTotalPrice());
+		customerOrderResponse.setLastUpdate(entity.getLastUpdate());
+		customerOrderResponse.setProducts(composeOrderedProductRequest(entity.getOrderedProducts()));
 
-		return orderRequest;
+		return customerOrderResponse;
 	}
 
-	private List<OrderedProductRequest> composeOrderedProductRequest(List<OrderedProductEntity> entities) {
+	private List<OrderedProductResponse> composeOrderedProductRequest(List<OrderedProductEntity> entities) {
 
-		List<OrderedProductRequest> lOrderedProductRequests = new ArrayList<>();
+		List<OrderedProductResponse> lOrderedProductResponses = new ArrayList<>();
 
 		for (OrderedProductEntity productEntity : entities) {
 
-			OrderedProductRequest orderedProductRequest = new OrderedProductRequest();
-			orderedProductRequest.setId(productEntity.getId());
-			orderedProductRequest.setProductId(productEntity.getProductId());
-			orderedProductRequest.setProductCode(productEntity.getProductCode());
-			orderedProductRequest.setName(productEntity.getName());
-			orderedProductRequest.setBrand(productEntity.getBrand());
-			orderedProductRequest.setQuantity(productEntity.getQuantity());
-			orderedProductRequest.setPrice(productEntity.getQuantity());
-			orderedProductRequest.setTotalPrice(productEntity.getTotalPrice());
+			OrderedProductResponse orderedProductResponse = new OrderedProductResponse();
+			orderedProductResponse.setId(productEntity.getId());
+			orderedProductResponse.setProductId(productEntity.getProductId());
+			orderedProductResponse.setProductCode(productEntity.getProductCode());
+			orderedProductResponse.setName(productEntity.getName());
+			orderedProductResponse.setBrand(productEntity.getBrand());
+			orderedProductResponse.setQuantity(productEntity.getQuantity());
+			orderedProductResponse.setPrice(productEntity.getQuantity());
+			orderedProductResponse.setTotalPrice(productEntity.getTotalPrice());
 
-			lOrderedProductRequests.add(orderedProductRequest);
+			lOrderedProductResponses.add(orderedProductResponse);
 
 		}
 
-		return lOrderedProductRequests;
+		return lOrderedProductResponses;
 	}
 
 }

@@ -30,7 +30,8 @@ import com.web.springboot.ivento.model.EOrderStatus;
 import com.web.springboot.ivento.model.OrderedProductEntity;
 import com.web.springboot.ivento.payload.request.CustomerOrderRequest;
 import com.web.springboot.ivento.payload.request.OrderedProductRequest;
-import com.web.springboot.ivento.payload.request.ProductRequest;
+import com.web.springboot.ivento.payload.response.CustomerOrderResponse;
+import com.web.springboot.ivento.payload.response.ProductResponse;
 import com.web.springboot.ivento.properties.Literals;
 import com.web.springboot.ivento.repository.CustomerOrderRepository;
 import com.web.springboot.ivento.service.exception.ProductNotFoundException;
@@ -100,7 +101,7 @@ class CustomerOrderServiceImplTest {
 		given(customerOrderRepositoryTest.findAll()).willReturn(orders);
 
 		// when
-		List<CustomerOrderRequest> results = underTest.findAllOrder();
+		List<CustomerOrderResponse> results = underTest.findAllOrder();
 
 		// then
 		assertThat(results).isNotEmpty();
@@ -140,7 +141,7 @@ class CustomerOrderServiceImplTest {
 		given(customerOrderRepositoryTest.findById(123L)).willReturn(Optional.of(customerOrderEntity));
 
 		// when
-		CustomerOrderRequest result = underTest.findOrderById(searchedId);
+		CustomerOrderResponse result = underTest.findOrderById(searchedId);
 
 		// then
 		assertThat(result).isNotNull();
@@ -199,7 +200,7 @@ class CustomerOrderServiceImplTest {
 		customerOrder.setTotalPrice(5000L);
 		customerOrder.setLastUpdate(LocalDateTime.now());
 
-		ProductRequest existsProduct = new ProductRequest();
+		ProductResponse existsProduct = new ProductResponse();
 		existsProduct.setId(orderedProduct.getProductId());
 		existsProduct.setProductCode(orderedProduct.getProductCode());
 		existsProduct.setName(orderedProduct.getName());
@@ -319,7 +320,7 @@ class CustomerOrderServiceImplTest {
 		given(customerOrderRepositoryTest.searchByCustomerName(nameCustomerLike)).willReturn(Optional.of(orders));
 
 		// when
-		List<CustomerOrderRequest> results = underTest.searchByCustomerName(nameCustomerLike);
+		List<CustomerOrderResponse> results = underTest.searchByCustomerName(nameCustomerLike);
 
 		assertThat(results).isNotEmpty();
 		assertThat(results.get(0).getName()).isEqualTo(expectedOrder.getName());

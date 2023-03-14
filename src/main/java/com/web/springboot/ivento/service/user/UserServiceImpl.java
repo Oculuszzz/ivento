@@ -12,6 +12,7 @@ import com.web.springboot.ivento.component.utils.MessageUtils;
 import com.web.springboot.ivento.model.UserEntity;
 import com.web.springboot.ivento.payload.request.SignupRequest;
 import com.web.springboot.ivento.payload.request.UserRequest;
+import com.web.springboot.ivento.payload.response.UserResponse;
 import com.web.springboot.ivento.properties.Literals;
 import com.web.springboot.ivento.repository.UserRepository;
 import com.web.springboot.ivento.service.exception.UserException;
@@ -73,7 +74,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserRequest findUserResponseById(Long id) {
+	public UserResponse findUserResponseById(Long id) {
 
 		UserEntity entity = userRepository.findById(id)
 				.orElseThrow(() -> new UserNotFoundException(messageUtils.getMessage(Literals.ERROR_USER_NOT_FOUND)));
@@ -138,7 +139,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserRequest findUserResponseByUsername(String username) {
+	public UserResponse findUserResponseByUsername(String username) {
 
 		UserEntity entity = userRepository.findByUsername(username)
 				.orElseThrow(() -> new UserNotFoundException(messageUtils.getMessage(Literals.ERROR_USER_NOT_FOUND)));
@@ -156,7 +157,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserRequest findUserByEmail(String email) {
+	public UserResponse findUserByEmail(String email) {
 
 		UserEntity entity = userRepository.findByEmail(email)
 				.orElseThrow(() -> new UserNotFoundException(messageUtils.getMessage(Literals.ERROR_USER_NOT_FOUND)));
@@ -207,9 +208,9 @@ public class UserServiceImpl implements UserService {
 
 	}
 
-	private UserRequest composeUserPOJO(UserEntity entity) {
+	private UserResponse composeUserPOJO(UserEntity entity) {
 
-		UserRequest u = new UserRequest();
+		UserResponse u = new UserResponse();
 		u.setId(entity.getId());
 		u.setUsername(entity.getUsername());
 		u.setEmail(entity.getEmail());
