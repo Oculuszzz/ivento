@@ -22,3 +22,11 @@ OR create specific application properties
 <br>
 https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.external-config
 
+# Related notes
+
+Spring Security <br>
+https://docs.spring.io/spring-security/reference/index.html
+
+Spring Data <br>
+https://docs.spring.io/spring-data/jpa/docs/current/reference/html/
+
