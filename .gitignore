@@ -1,0 +1,7 @@
+
+.classpath
+.factorypath
+.project
+*.prefs
+*.log
+/target/*
