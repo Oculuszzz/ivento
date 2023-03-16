@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.web.springboot.ivento.component.utils.MessageUtils;
 import com.web.springboot.ivento.payload.request.CustomerOrderRequest;
 import com.web.springboot.ivento.payload.response.CustomerOrderResponse;
 import com.web.springboot.ivento.payload.response.MessageResponse;
@@ -40,8 +40,18 @@ public class CustomerOrderController {
 
 	private static final Logger logger = LoggerFactory.getLogger(CustomerOrderController.class);
 
-	@Autowired
-	CustomerOrderServiceImpl customerOrderService;
+	private final CustomerOrderServiceImpl customerOrderService;
+
+	private final MessageUtils messageUtils;
+
+	/**
+	 * @param customerOrderService
+	 * @param messageUtils
+	 */
+	public CustomerOrderController(CustomerOrderServiceImpl customerOrderService, MessageUtils messageUtils) {
+		this.customerOrderService = customerOrderService;
+		this.messageUtils = messageUtils;
+	}
 
 	@GetMapping
 	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
@@ -73,15 +83,17 @@ public class CustomerOrderController {
 
 		customerOrderService.updateCustomerOrder(customerOrderRequest);
 
-		return ResponseEntity.ok(new MessageResponse(Literals.UPDATE_CUSTOMER_ORDER_OK));
+		return ResponseEntity.ok(new MessageResponse(messageUtils.getMessage(Literals.UPDATE_CUSTOMER_ORDER_OK)));
 
 	}
 
 	@PostMapping(value = "/add-new-customer-order")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
-	public ResponseEntity<Long> addNew(@Valid @RequestBody CustomerOrderRequest customerOrderRequest) {
+	public ResponseEntity<MessageResponse> addNew(@Valid @RequestBody CustomerOrderRequest customerOrderRequest) {
 
-		return new ResponseEntity<>(HttpStatus.CREATED); // Return id product that successful created
+		customerOrderService.addCustomerOrder(customerOrderRequest);
+
+		return ResponseEntity.ok(new MessageResponse(messageUtils.getMessage(Literals.ADD_CUSTOMER_ORDER_OK)));
 
 	}
 
@@ -91,7 +103,7 @@ public class CustomerOrderController {
 
 		// TODO : Implement delete order
 
-		return ResponseEntity.ok(new MessageResponse(Literals.DELETE_CUSTOMER_ORDER_OK));
+		return ResponseEntity.ok(new MessageResponse(messageUtils.getMessage(Literals.DELETE_CUSTOMER_ORDER_OK)));
 
 	}
 
