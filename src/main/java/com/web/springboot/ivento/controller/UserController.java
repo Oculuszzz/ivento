@@ -60,7 +60,7 @@ public class UserController {
 
 	}
 
-	@PutMapping(value = "/users/update-user")
+	@PutMapping(value = "update-user")
 	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
 	public ResponseEntity<MessageResponse> update(@Valid @RequestBody UserRequest userRequest) {
 
