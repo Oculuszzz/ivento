@@ -69,7 +69,9 @@ public class RefreshTokenService {
 			// Save token into db
 			jwtTokenRepository.save(new JwtTokenEntity(newAccessToken, refreshToken, LocalDateTime.now(), userEntity));
 
-			return new TokenRefreshResponse(newAccessToken, refreshToken);
+			return new TokenRefreshResponse(newAccessToken, refreshToken, userEntity.getId(), userEntity.getUsername(),
+					userEntity.getEmail(), userEntity.isBlocked(), userEntity.getImage(), userEntity.getRole().name(),
+					userEntity.getLastLoggedIn(), userEntity.getLastUpdated());
 
 		} else {
 
