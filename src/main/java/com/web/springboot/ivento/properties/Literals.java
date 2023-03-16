@@ -30,13 +30,14 @@ public class Literals {
 
 	public static final String DELETE_PRODUCT_OK = "Delete product OK!";
 
-	public static final String ADD_CUSTOMER_ORDER_OK = "Add new customer order OK!";
-
-	public static final String UPDATE_CUSTOMER_ORDER_OK = "Update customer order OK!";
-
-	public static final String DELETE_CUSTOMER_ORDER_OK = "Delete customer order OK!";
-
 	////////////////////////////////////////
+
+	public static final String ADD_CUSTOMER_ORDER_OK = "ADD_CUSTOMER_ORDER_OK";
+
+	public static final String UPDATE_CUSTOMER_ORDER_OK = "UPDATE_CUSTOMER_ORDER_OK";
+
+	public static final String DELETE_CUSTOMER_ORDER_OK = "DELETE_CUSTOMER_ORDER_OK";
+
 	public static final String ERROR_USER_NOT_FOUND = "USER_NOT_FOUND_EXCEPTION";
 
 	public static final String ERROR_USER_ID_TAKEN = "USER_ID_TAKE_EXCEPTION";
