@@ -16,7 +16,7 @@ public class IventoApplication {
 	}
 
 	@Bean
-	public MessageSource messageSource() {
+	MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 
 		messageSource.setBasename("classpath:messages");

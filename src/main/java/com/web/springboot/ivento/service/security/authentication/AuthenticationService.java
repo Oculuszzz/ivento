@@ -20,6 +20,7 @@ import com.web.springboot.ivento.payload.request.AuthenticationRequest;
 import com.web.springboot.ivento.payload.request.SignupRequest;
 import com.web.springboot.ivento.payload.response.AuthenticationResponse;
 import com.web.springboot.ivento.repository.JwtTokenRepository;
+import com.web.springboot.ivento.repository.UserRepository;
 import com.web.springboot.ivento.service.security.UserDetailsImpl;
 import com.web.springboot.ivento.service.security.jwt.JwtTokenService;
 import com.web.springboot.ivento.service.user.UserServiceImpl;
@@ -37,6 +38,8 @@ public class AuthenticationService {
 
 	private final JwtTokenRepository jwtTokenRepository;
 
+	private final UserRepository userRepository;
+
 	private final PasswordEncoder encoder;
 
 	private final JwtTokenService jwtTokenService;
@@ -45,16 +48,18 @@ public class AuthenticationService {
 	 * @param authenticationManager
 	 * @param userService
 	 * @param jwtTokenRepository
+	 * @param userRepository
 	 * @param encoder
 	 * @param jwtTokenService
-	 * @param messageUtils
 	 */
 	public AuthenticationService(AuthenticationManager authenticationManager, UserServiceImpl userService,
-			JwtTokenRepository jwtTokenRepository, PasswordEncoder encoder, JwtTokenService jwtTokenService) {
+			JwtTokenRepository jwtTokenRepository, UserRepository userRepository, PasswordEncoder encoder,
+			JwtTokenService jwtTokenService) {
 		super();
 		this.authenticationManager = authenticationManager;
 		this.userService = userService;
 		this.jwtTokenRepository = jwtTokenRepository;
+		this.userRepository = userRepository;
 		this.encoder = encoder;
 		this.jwtTokenService = jwtTokenService;
 	}
@@ -76,6 +81,10 @@ public class AuthenticationService {
 
 		// Delete old tokens from DB
 		jwtTokenService.deleteByUserId(userEntity.getId());
+
+		// Update user last logged in
+		userEntity.setLastLoggedIn(LocalDateTime.now());
+		userEntity = userRepository.save(userEntity);
 
 		// Save token into db
 		jwtTokenRepository.save(new JwtTokenEntity(accessToken, refreshToken, LocalDateTime.now(), userEntity));
