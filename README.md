@@ -1,9 +1,9 @@
 # IVENTO
 Ivento is a inventory management application where user able to tracking inventory levels, orders sales and deliveries.
 
-Open http://localhost:8091 to view it in the browser.
-
-The page will reload if you make edits.
+Feel free to visit the live application
+<br>
+https://invento-oculuszzz.netlify.app
 
 
 # Tools & Libraries
@@ -21,6 +21,10 @@ Feel free to modify/change the configuration for application properties or DB co
 OR create specific application properties
 <br>
 https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.external-config
+
+Open http://localhost:8091 to view it in the browser.
+
+The page will reload if you make edits.
 
 # Related notes
 
