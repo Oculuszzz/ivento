@@ -3,9 +3,11 @@
  */
 package com.web.springboot.ivento.service.login.customerorder;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -180,6 +182,39 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
 		}
 
 		return lOrderedProductResponses;
+	}
+
+	@Override
+	public List<CustomerOrderResponse> findByPlaceOrderStartDateTimeAndDateTime(LocalDateTime startDate,
+			LocalDateTime endDate) {
+
+		Optional<List<CustomerOrderEntity>> entities = customerOrderRepository
+				.findByPlaceOrderStartDateTimeAndDateTime(startDate, endDate);
+		List<CustomerOrderResponse> lCustomerOrderResponse = new ArrayList<>();
+
+		if (entities.isPresent()) {
+
+			for (CustomerOrderEntity entity : entities.get()) {
+
+				CustomerOrderResponse customerOrderResponse = new CustomerOrderResponse();
+				customerOrderResponse.setId(entity.getId());
+				customerOrderResponse.setName(entity.getName());
+				customerOrderResponse.setPhoneNumber(entity.getPhoneNumber());
+				customerOrderResponse.setAddress(entity.getAddress());
+				customerOrderResponse.setCompanyName(entity.getCompanyName());
+				customerOrderResponse.setCompanyAddress(entity.getCompanyAddress());
+				customerOrderResponse.setStatus(entity.getStatus());
+				customerOrderResponse.setTotalPrice(entity.getTotalPrice());
+				customerOrderResponse.setLastUpdate(entity.getLastUpdate());
+				customerOrderResponse.setProducts(composeOrderedProductRequest(entity.getOrderedProducts()));
+
+				lCustomerOrderResponse.add(customerOrderResponse);
+
+			}
+
+		}
+
+		return lCustomerOrderResponse;
 	}
 
 }

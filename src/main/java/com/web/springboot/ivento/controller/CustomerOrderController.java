@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.web.springboot.ivento.component.utils.DateUtils;
 import com.web.springboot.ivento.component.utils.MessageUtils;
 import com.web.springboot.ivento.payload.request.CustomerOrderRequest;
 import com.web.springboot.ivento.payload.response.CustomerOrderResponse;
@@ -42,14 +43,19 @@ public class CustomerOrderController {
 
 	private final CustomerOrderServiceImpl customerOrderService;
 
+	private final DateUtils dateUtils;
+
 	private final MessageUtils messageUtils;
 
 	/**
 	 * @param customerOrderService
+	 * @param dateUtils
 	 * @param messageUtils
 	 */
-	public CustomerOrderController(CustomerOrderServiceImpl customerOrderService, MessageUtils messageUtils) {
+	public CustomerOrderController(CustomerOrderServiceImpl customerOrderService, DateUtils dateUtils,
+			MessageUtils messageUtils) {
 		this.customerOrderService = customerOrderService;
+		this.dateUtils = dateUtils;
 		this.messageUtils = messageUtils;
 	}
 
@@ -66,6 +72,23 @@ public class CustomerOrderController {
 	public ResponseEntity<CustomerOrderResponse> findById(@RequestParam Long id) {
 
 		return new ResponseEntity<>(customerOrderService.findOrderById(id), HttpStatus.OK);
+
+	}
+
+	@GetMapping(value = "/find-customer-order-by-date")
+	@PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+	public ResponseEntity<List<CustomerOrderResponse>> findByStartDateTimeAndEndDateTime(
+			@RequestParam String startDateTime, @RequestParam String endDateTime) {
+
+		if (logger.isDebugEnabled()) {
+			logger.debug(
+					String.format("findByStartDateTimeAndEndDateTime(): Received startDateTime - %s, endDateTime - %s ",
+							startDateTime, endDateTime));
+		}
+
+		return new ResponseEntity<>(customerOrderService.findByPlaceOrderStartDateTimeAndDateTime(
+				dateUtils.convertIsoDateTimeStringToLocalDateTime(startDateTime),
+				dateUtils.convertIsoDateTimeStringToLocalDateTime(endDateTime)), HttpStatus.OK);
 
 	}
 
