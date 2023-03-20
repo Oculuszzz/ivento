@@ -3,6 +3,8 @@
  */
 package com.web.springboot.ivento.service.conf;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 import com.web.springboot.ivento.component.security.jwt.JwtAuthenticationEntryPointImpl;
 import com.web.springboot.ivento.component.security.jwt.JwtAuthenticationOncePerRequestFilter;
@@ -46,7 +49,6 @@ public class SecurityConfiguration {
 	 */
 	public SecurityConfiguration(UserDetailsServiceImpl userDetailsService,
 			JwtAuthenticationEntryPointImpl unauthorizedHandler, JwtTokenService jwtTokenService) {
-		super();
 		this.userDetailsService = userDetailsService;
 		this.unauthorizedHandler = unauthorizedHandler;
 		this.jwtTokenService = jwtTokenService;
@@ -80,9 +82,21 @@ public class SecurityConfiguration {
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-		http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler);
+//		http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler);
+
+		http.cors().configurationSource(request -> {
+			var cors = new CorsConfiguration();
+			cors.setAllowedOrigins(List.of("http://192.168.0.2:3000", "http://localhost:3000",
+					"https://invento-oculuszzz.netlify.app/"));
+			cors.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+			cors.setAllowedHeaders(List.of("*"));
+			return cors;
+		}).and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler);
+
+		http.authorizeHttpRequests().requestMatchers("/api/auth/refreshtoken").permitAll();
 		http.authorizeHttpRequests().requestMatchers("/api/auth/**").permitAll();
 		http.authorizeHttpRequests().requestMatchers("/api/test/**").permitAll();
+		http.authorizeHttpRequests().requestMatchers("/api/auth/users/**").hasRole("ADMIN");
 		http.authorizeHttpRequests().anyRequest().authenticated();
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.authenticationProvider(authenticationProvider());
