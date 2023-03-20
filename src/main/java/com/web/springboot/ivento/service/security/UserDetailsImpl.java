@@ -174,7 +174,12 @@ public class UserDetailsImpl implements UserDetails {
 	public static UserDetailsImpl build(UserEntity user) {
 
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		authorities.add(new SimpleGrantedAuthority(user.getRole().name()));
+
+		if (user != null && user.getRole() != null) {
+
+			authorities.add(new SimpleGrantedAuthority(user.getRole().name()));
+
+		}
 
 		return new UserDetailsImpl(user.getId(), user.getUsername(), user.getEmail(), user.getPassword(),
 				user.isBlocked(), user.getImage(), user.getLastLoggedIn(), user.getLastUpdated(), authorities);

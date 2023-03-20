@@ -53,6 +53,15 @@ public class JwtAuthenticationOncePerRequestFilter extends OncePerRequestFilter 
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
+		String uri = request.getRequestURI();
+
+		if (uri.contains("/api/auth/refreshtoken")) {
+
+			filterChain.doFilter(request, response);
+			return;
+
+		}
+
 		String jwt = parseJwt(request);
 
 		// Validate token header authentication and security authentication
@@ -63,10 +72,10 @@ public class JwtAuthenticationOncePerRequestFilter extends OncePerRequestFilter 
 
 		}
 
-		String username = jwtTokenService.getUsernameFromToken(jwt);
-		UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(username);
+		if (jwtTokenService.validateJWTToken(jwt)) {
 
-		if (jwtTokenService.validateJWTToken(jwt, userDetails)) {
+			String username = jwtTokenService.getUsernameFromToken(jwt);
+			UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(username);
 
 			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
 					null, userDetails.getAuthorities());

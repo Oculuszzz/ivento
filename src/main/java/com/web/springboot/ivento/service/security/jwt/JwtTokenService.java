@@ -13,7 +13,6 @@ import java.util.function.Function;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -109,20 +108,9 @@ public class JwtTokenService {
 
 	}
 
-	public boolean validateJWTToken(String authToken, UserDetails userDetails) {
+	public boolean validateJWTToken(String authToken) {
 
 		boolean tokenOK = false;
-
-		// Check the token is belong to the userDetails
-		final String tokenUsername = getUsernameFromToken(authToken);
-
-		if (!tokenUsername.equals(userDetails.getUsername())) {
-
-			logger.error("JwtUtils.validateJWTToken() : Invalid token are not belong to username");
-
-			return tokenOK;
-
-		}
 
 		try {
 
