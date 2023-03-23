@@ -32,9 +32,9 @@ public class ControllerExceptionHandler {
 	}
 
 	@ExceptionHandler(value = TokenRefreshException.class)
-	@ResponseStatus(HttpStatus.FORBIDDEN)
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
 	public ErrorMessage handleTokenRefreshException(TokenRefreshException ex, WebRequest request) {
-		return new ErrorMessage(HttpStatus.FORBIDDEN.value(), ex.getMessage(), request.getDescription(false),
+		return new ErrorMessage(HttpStatus.UNAUTHORIZED.value(), ex.getMessage(), request.getDescription(false),
 				LocalDateTime.now());
 	}
 

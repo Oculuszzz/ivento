@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @author mokht
  *
  */
-@ResponseStatus(HttpStatus.FORBIDDEN)
+@ResponseStatus(HttpStatus.UNAUTHORIZED)
 public class TokenRefreshException extends RuntimeException {
 
 	/**
