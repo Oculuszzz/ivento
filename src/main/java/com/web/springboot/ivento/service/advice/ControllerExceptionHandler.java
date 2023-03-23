@@ -14,6 +14,7 @@ import org.springframework.web.context.request.WebRequest;
 import com.web.springboot.ivento.service.exception.CustomerOrderNotFound;
 import com.web.springboot.ivento.service.exception.ProductNotFoundException;
 import com.web.springboot.ivento.service.exception.TokenRefreshException;
+import com.web.springboot.ivento.service.exception.UserException;
 import com.web.springboot.ivento.service.exception.UserNotFoundException;
 
 /**
@@ -22,6 +23,13 @@ import com.web.springboot.ivento.service.exception.UserNotFoundException;
  */
 @RestControllerAdvice
 public class ControllerExceptionHandler {
+
+	@ExceptionHandler(value = UserException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ErrorMessage handleUserException(UserException ex, WebRequest request) {
+		return new ErrorMessage(HttpStatus.BAD_REQUEST.value(), ex.getMessage(), request.getDescription(false),
+				LocalDateTime.now());
+	}
 
 	@ExceptionHandler(value = TokenRefreshException.class)
 	@ResponseStatus(HttpStatus.FORBIDDEN)
