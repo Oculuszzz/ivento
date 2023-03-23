@@ -46,4 +46,6 @@ public class Literals {
 
 	public static final String ERROR_INVALID_REFRESH_TOKEN = "INVALID_REFRESH_TOKEN_EXCEPTION";
 
+	public static final String ERROR_CUSTOMER_ORDERED_NOT_FOUND = "CUSTOMER_ORDERED_NOT_FOUND_EXCEPTION";
+
 }
