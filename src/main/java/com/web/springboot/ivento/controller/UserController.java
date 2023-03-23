@@ -69,18 +69,6 @@ public class UserController {
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<MessageResponse> addNew(@Valid @RequestBody SignupRequest signupRequest) {
 
-		if (Boolean.TRUE.equals(userService.existsByUsername(signupRequest.getUsername()))) {
-
-			return ResponseEntity.badRequest().body(new MessageResponse(Literals.ERROR_AUTH_1));
-
-		}
-
-		if (Boolean.TRUE.equals(userService.existsByEmail(signupRequest.getEmail()))) {
-
-			return ResponseEntity.badRequest().body(new MessageResponse(Literals.ERROR_AUTH_2));
-
-		}
-
 		userService.addNewUser(signupRequest);
 
 		return ResponseEntity.ok(new MessageResponse(Literals.ADD_NEW_USER_OK));
