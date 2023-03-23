@@ -16,7 +16,7 @@ import com.web.springboot.ivento.payload.response.UserResponse;
  */
 public interface UserService {
 
-	public List<UserRequest> findAllUser();
+	public List<UserResponse> findAllUser();
 
 	public UserResponse findUserResponseById(Long id);
 

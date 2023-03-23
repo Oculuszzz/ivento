@@ -5,8 +5,6 @@ package com.web.springboot.ivento.controller;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,20 +31,17 @@ import jakarta.validation.Valid;
  * @author mokht
  *
  */
-//@CrossOrigin(origins = "http://localhost:8091") // Already define in application properties
 @CrossOrigin
 @RestController
 @RequestMapping("/api/auth/users")
 public class UserController {
-
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@Autowired
 	UserServiceImpl userService;
 
 	@GetMapping
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<List<UserRequest>> findAll() {
+	public ResponseEntity<List<UserResponse>> findAll() {
 
 		return new ResponseEntity<>(userService.findAllUser(), HttpStatus.OK);
 

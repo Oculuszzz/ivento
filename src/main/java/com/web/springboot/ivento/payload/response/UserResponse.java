@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 import com.web.springboot.ivento.model.ERole;
+import com.web.springboot.ivento.model.UserEntity;
 
 /**
  * @author mokht
@@ -35,6 +36,19 @@ public class UserResponse {
 	 */
 	public UserResponse() {
 		super();
+	}
+
+	public UserResponse(UserEntity entity) {
+
+		this.setId(entity.getId());
+		this.setUsername(entity.getUsername());
+		this.setEmail(entity.getEmail());
+		this.setRole(entity.getRole());
+		this.setBlocked(entity.isBlocked());
+		this.setImage(entity.getImage());
+		this.setLastLoggedIn(entity.getLastLoggedIn());
+		this.setLastUpdated(entity.getLastUpdated());
+
 	}
 
 	/**

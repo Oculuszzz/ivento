@@ -118,7 +118,7 @@ class UserServiceImplTest {
 		given(userRepositoryTest.findAll()).willReturn(entities);
 
 		// When
-		List<UserRequest> results = underTest.findAllUser();
+		List<UserResponse> results = underTest.findAllUser();
 
 		// Then
 		assertThat(results).isNotEmpty();
@@ -132,7 +132,7 @@ class UserServiceImplTest {
 		given(userRepositoryTest.findAll()).willReturn(Collections.emptyList());
 
 		// When
-		List<UserRequest> results = underTest.findAllUser();
+		List<UserResponse> results = underTest.findAllUser();
 
 		// Then
 		assertThat(results).isEmpty();

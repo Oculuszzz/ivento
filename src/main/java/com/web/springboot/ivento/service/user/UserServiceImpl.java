@@ -1,11 +1,8 @@
 package com.web.springboot.ivento.service.user;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.web.springboot.ivento.component.utils.MessageUtils;
@@ -27,8 +24,6 @@ import jakarta.validation.Valid;
 @Service
 public class UserServiceImpl implements UserService {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-
 	private final UserRepository userRepository;
 
 	private final MessageUtils messageUtils;
@@ -48,28 +43,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UserRequest> findAllUser() {
+	public List<UserResponse> findAllUser() {
 
 		List<UserEntity> lUserEntity = userRepository.findAll();
-		List<UserRequest> lUser = new ArrayList<>();
 
-		for (UserEntity entity : lUserEntity) {
-
-			UserRequest u = new UserRequest();
-			u.setId(entity.getId());
-			u.setUsername(entity.getUsername());
-			u.setEmail(entity.getEmail());
-			u.setRole(entity.getRole());
-			u.setBlocked(entity.isBlocked());
-			u.setImage(entity.getImage());
-			u.setLastLoggedIn(entity.getLastLoggedIn());
-			u.setLastUpdated(entity.getLastUpdated());
-
-			lUser.add(u);
-
-		}
-
-		return lUser;
+		return lUserEntity.stream().map(UserResponse::new).toList();
 
 	}
 
@@ -79,7 +57,7 @@ public class UserServiceImpl implements UserService {
 		UserEntity entity = userRepository.findById(id)
 				.orElseThrow(() -> new UserNotFoundException(messageUtils.getMessage(Literals.ERROR_USER_NOT_FOUND)));
 
-		return composeUserPOJO(entity);
+		return new UserResponse(entity);
 
 	}
 
@@ -144,7 +122,7 @@ public class UserServiceImpl implements UserService {
 		UserEntity entity = userRepository.findByUsername(username)
 				.orElseThrow(() -> new UserNotFoundException(messageUtils.getMessage(Literals.ERROR_USER_NOT_FOUND)));
 
-		return composeUserPOJO(entity);
+		return new UserResponse(entity);
 
 	}
 
@@ -162,7 +140,7 @@ public class UserServiceImpl implements UserService {
 		UserEntity entity = userRepository.findByEmail(email)
 				.orElseThrow(() -> new UserNotFoundException(messageUtils.getMessage(Literals.ERROR_USER_NOT_FOUND)));
 
-		return composeUserPOJO(entity);
+		return new UserResponse(entity);
 
 	}
 
@@ -206,21 +184,6 @@ public class UserServiceImpl implements UserService {
 
 		return Boolean.TRUE;
 
-	}
-
-	private UserResponse composeUserPOJO(UserEntity entity) {
-
-		UserResponse u = new UserResponse();
-		u.setId(entity.getId());
-		u.setUsername(entity.getUsername());
-		u.setEmail(entity.getEmail());
-		u.setRole(entity.getRole());
-		u.setBlocked(entity.isBlocked());
-		u.setImage(entity.getImage());
-		u.setLastLoggedIn(entity.getLastLoggedIn());
-		u.setLastUpdated(entity.getLastUpdated());
-
-		return u;
 	}
 
 }
