@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
+import com.web.springboot.ivento.service.exception.CustomerOrderNotFound;
 import com.web.springboot.ivento.service.exception.ProductNotFoundException;
 import com.web.springboot.ivento.service.exception.TokenRefreshException;
 import com.web.springboot.ivento.service.exception.UserNotFoundException;
@@ -39,6 +40,13 @@ public class ControllerExceptionHandler {
 	@ExceptionHandler(value = ProductNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public ErrorMessage handleProductNotFoundException(ProductNotFoundException ex, WebRequest request) {
+		return new ErrorMessage(HttpStatus.NOT_FOUND.value(), ex.getMessage(), request.getDescription(false),
+				LocalDateTime.now());
+	}
+
+	@ExceptionHandler(value = CustomerOrderNotFound.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public ErrorMessage handleCustomerOrderedNotFoundException(CustomerOrderNotFound ex, WebRequest request) {
 		return new ErrorMessage(HttpStatus.NOT_FOUND.value(), ex.getMessage(), request.getDescription(false),
 				LocalDateTime.now());
 	}
