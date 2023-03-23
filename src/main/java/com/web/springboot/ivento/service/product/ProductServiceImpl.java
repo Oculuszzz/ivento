@@ -1,18 +1,16 @@
 package com.web.springboot.ivento.service.product;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.web.springboot.ivento.component.utils.MessageUtils;
 import com.web.springboot.ivento.model.ProductEntity;
 import com.web.springboot.ivento.payload.request.ProductRequest;
 import com.web.springboot.ivento.payload.response.ProductResponse;
+import com.web.springboot.ivento.properties.Literals;
 import com.web.springboot.ivento.repository.ProductRepository;
-import com.web.springboot.ivento.service.exception.ProductException;
 import com.web.springboot.ivento.service.exception.ProductNotFoundException;
 
 /**
@@ -22,12 +20,9 @@ import com.web.springboot.ivento.service.exception.ProductNotFoundException;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-	private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
-
-//	@Autowired
-//	ProductRepository productRepository;
-
 	private final ProductRepository productRepository;
+
+	private final MessageUtils messageUtils;
 
 	/**
 	 * Improved design by @Autowired instance on constructor (constructor
@@ -37,121 +32,66 @@ public class ProductServiceImpl implements ProductService {
 	 * @param productRepository
 	 * 
 	 */
-	public ProductServiceImpl(ProductRepository productRepository) {
+	public ProductServiceImpl(ProductRepository productRepository, MessageUtils messageUtils) {
 		this.productRepository = productRepository;
+		this.messageUtils = messageUtils;
 	}
 
 	@Override
 	public List<ProductResponse> findAllProduct() {
 
 		List<ProductEntity> lProductEntities = productRepository.findAll();
-		List<ProductResponse> lProduct = new ArrayList<>();
 
-		for (ProductEntity entity : lProductEntities) {
+		return lProductEntities.stream().map(ProductResponse::new).toList();
 
-			ProductResponse p = new ProductResponse();
-			p.setId(entity.getId());
-			p.setProductCode(entity.getProductCode());
-			p.setName(entity.getName());
-			p.setBrand(entity.getBrand());
-			p.setPrice(entity.getPrice());
-			p.setQuantity(entity.getQuantity());
-			p.setLastUpdate(entity.getLastUpdate());
-
-			lProduct.add(p);
-		}
-
-		return lProduct;
 	}
 
 	@Override
 	public ProductResponse findProductById(Long id) {
 
-		ProductEntity entity = productRepository.findById(id).orElse(null);
-
-		if (entity != null) {
-
-			return composeProductPojo(entity);
-
-		} else {
-
-			return null;
-
-		}
+		return productRepository.findById(id).map(ProductResponse::new).orElseThrow(() -> new ProductNotFoundException(
+				String.format("Product id - %d, %s", id, messageUtils.getMessage(Literals.ERROR_PRODUCT_NOT_FOUND))));
 
 	}
 
 	@Override
-	public Boolean updateProduct(ProductRequest productRequest) throws ProductException {
+	public Boolean updateProduct(ProductRequest productRequest) {
 
-		try {
+		ProductEntity entity = productRepository.findById(productRequest.getId())
+				.orElseThrow(() -> new ProductNotFoundException(String.format("Product id - %d, %s",
+						productRequest.getId(), messageUtils.getMessage(Literals.ERROR_PRODUCT_NOT_FOUND))));
 
-			ProductEntity entity = productRepository.findById(productRequest.getId()).orElse(null);
+		entity.setName(productRequest.getName());
+		entity.setProductCode(productRequest.getProductCode());
+		entity.setBrand(productRequest.getBrand());
+		entity.setPrice(productRequest.getPrice());
+		entity.setQuantity(productRequest.getQuantity());
+		entity.setLastUpdate(productRequest.getLastUpdate());
 
-			if (entity != null) {
+		productRepository.save(entity);
 
-				entity.setName(productRequest.getName());
-				entity.setProductCode(productRequest.getProductCode());
-				entity.setBrand(productRequest.getBrand());
-				entity.setPrice(productRequest.getPrice());
-				entity.setQuantity(productRequest.getQuantity());
-				entity.setLastUpdate(productRequest.getLastUpdate());
-
-				productRepository.save(entity);
-
-				return Boolean.TRUE;
-
-			} else {
-
-				throw new ProductNotFoundException("Product not found!");
-
-			}
-
-		} catch (Exception e) {
-
-			throw new ProductException(e.getMessage());
-
-		}
+		return Boolean.TRUE;
 
 	}
 
 	@Override
-	public Long addNewProduct(ProductRequest productRequest) throws ProductException {
+	public Long addNewProduct(ProductRequest productRequest) {
 
-		try {
+		ProductEntity entity = new ProductEntity(productRequest.getProductCode(), productRequest.getName(),
+				productRequest.getBrand(), productRequest.getQuantity(), productRequest.getPrice(),
+				productRequest.getLastUpdate());
 
-			ProductEntity entity = new ProductEntity();
-
-			entity.setName(productRequest.getName());
-			entity.setProductCode(productRequest.getProductCode());
-			entity.setBrand(productRequest.getBrand());
-			entity.setPrice(productRequest.getPrice());
-			entity.setQuantity(productRequest.getQuantity());
-			entity.setLastUpdate(productRequest.getLastUpdate());
-
-			return productRepository.save(entity).getId();
-
-		} catch (Exception e) {
-
-			throw new ProductException(e.getMessage());
-
-		}
+		return productRepository.save(entity).getId();
 
 	}
 
 	@Override
 	public List<ProductResponse> searchProducts(String searchRequest) {
 
-		List<ProductResponse> lProducts = new ArrayList<>();
 		List<ProductEntity> entities = productRepository.searchProducts(searchRequest).orElse(Collections.emptyList());
 
-		for (ProductEntity entity : entities) {
+		return entities.stream().map(ProductResponse::new).toList();
 
-			lProducts.add(composeProductPojo(entity));
-
-		}
-
-		return lProducts;
 	}
 
 	@Override
@@ -159,19 +99,6 @@ public class ProductServiceImpl implements ProductService {
 
 		productRepository.deleteById(id);
 
-	}
-
-	private ProductResponse composeProductPojo(ProductEntity entity) {
-		ProductResponse productResponse = new ProductResponse();
-		productResponse.setId(entity.getId());
-		productResponse.setProductCode(entity.getProductCode());
-		productResponse.setName(entity.getName());
-		productResponse.setBrand(entity.getBrand());
-		productResponse.setPrice(entity.getPrice());
-		productResponse.setQuantity(entity.getQuantity());
-		productResponse.setLastUpdate(entity.getLastUpdate());
-
-		return productResponse;
 	}
 
 }

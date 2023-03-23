@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.web.springboot.ivento.payload.request.ProductRequest;
 import com.web.springboot.ivento.payload.response.ProductResponse;
-import com.web.springboot.ivento.service.exception.ProductException;
 
 /**
  * @author mokht
@@ -19,9 +18,9 @@ public interface ProductService {
 
 	public ProductResponse findProductById(Long id);
 
-	public Boolean updateProduct(ProductRequest productRequest) throws ProductException;
+	public Boolean updateProduct(ProductRequest productRequest);
 
-	public Long addNewProduct(ProductRequest productRequest) throws ProductException;
+	public Long addNewProduct(ProductRequest productRequest);
 
 	public List<ProductResponse> searchProducts(String searchRequest);
 
