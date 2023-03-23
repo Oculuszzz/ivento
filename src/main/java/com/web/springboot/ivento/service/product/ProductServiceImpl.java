@@ -5,13 +5,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.web.springboot.ivento.component.utils.MessageUtils;
 import com.web.springboot.ivento.model.ProductEntity;
 import com.web.springboot.ivento.payload.request.ProductRequest;
 import com.web.springboot.ivento.payload.response.ProductResponse;
 import com.web.springboot.ivento.properties.Literals;
 import com.web.springboot.ivento.repository.ProductRepository;
 import com.web.springboot.ivento.service.exception.ProductNotFoundException;
+import com.web.springboot.ivento.utils.MessageUtils;
 
 /**
  * @author mokht

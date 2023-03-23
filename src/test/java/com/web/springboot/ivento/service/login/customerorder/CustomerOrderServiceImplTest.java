@@ -24,7 +24,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.web.springboot.ivento.component.utils.MessageUtils;
 import com.web.springboot.ivento.model.CustomerOrderEntity;
 import com.web.springboot.ivento.model.EOrderStatus;
 import com.web.springboot.ivento.model.OrderedProductEntity;
@@ -36,6 +35,7 @@ import com.web.springboot.ivento.properties.Literals;
 import com.web.springboot.ivento.repository.CustomerOrderRepository;
 import com.web.springboot.ivento.service.exception.ProductNotFoundException;
 import com.web.springboot.ivento.service.product.ProductServiceImpl;
+import com.web.springboot.ivento.utils.MessageUtils;
 
 /**
  * @author mokht

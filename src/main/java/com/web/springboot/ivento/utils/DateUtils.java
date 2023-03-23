@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.web.springboot.ivento.component.utils;
+package com.web.springboot.ivento.utils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

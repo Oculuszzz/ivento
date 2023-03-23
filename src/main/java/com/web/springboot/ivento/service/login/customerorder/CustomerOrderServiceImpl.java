@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.web.springboot.ivento.component.utils.MessageUtils;
 import com.web.springboot.ivento.model.CustomerOrderEntity;
 import com.web.springboot.ivento.model.OrderedProductEntity;
 import com.web.springboot.ivento.payload.request.CustomerOrderRequest;
@@ -22,6 +21,7 @@ import com.web.springboot.ivento.repository.CustomerOrderRepository;
 import com.web.springboot.ivento.service.exception.CustomerOrderNotFound;
 import com.web.springboot.ivento.service.exception.ProductNotFoundException;
 import com.web.springboot.ivento.service.product.ProductServiceImpl;
+import com.web.springboot.ivento.utils.MessageUtils;
 
 /**
  * @author mokht

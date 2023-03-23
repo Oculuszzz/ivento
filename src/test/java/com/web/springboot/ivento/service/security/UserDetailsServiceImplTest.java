@@ -14,12 +14,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.web.springboot.ivento.component.utils.MessageUtils;
 import com.web.springboot.ivento.model.ERole;
 import com.web.springboot.ivento.model.UserEntity;
 import com.web.springboot.ivento.properties.Literals;
 import com.web.springboot.ivento.service.exception.UserNotFoundException;
 import com.web.springboot.ivento.service.user.UserServiceImpl;
+import com.web.springboot.ivento.utils.MessageUtils;
 
 @ExtendWith(MockitoExtension.class) // for JUnit 5
 class UserDetailsServiceImplTest {

@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import com.web.springboot.ivento.component.utils.MessageUtils;
 import com.web.springboot.ivento.model.JwtTokenEntity;
 import com.web.springboot.ivento.model.UserEntity;
 import com.web.springboot.ivento.payload.response.TokenRefreshResponse;
@@ -18,6 +17,7 @@ import com.web.springboot.ivento.repository.JwtTokenRepository;
 import com.web.springboot.ivento.service.exception.TokenRefreshException;
 import com.web.springboot.ivento.service.security.UserDetailsImpl;
 import com.web.springboot.ivento.service.user.UserServiceImpl;
+import com.web.springboot.ivento.utils.MessageUtils;
 
 /**
  * @author mokht

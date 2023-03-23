@@ -30,7 +30,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.web.springboot.ivento.component.utils.MessageUtils;
 import com.web.springboot.ivento.model.ERole;
 import com.web.springboot.ivento.model.UserEntity;
 import com.web.springboot.ivento.payload.request.SignupRequest;
@@ -41,6 +40,7 @@ import com.web.springboot.ivento.repository.UserRepository;
 import com.web.springboot.ivento.service.exception.UserException;
 import com.web.springboot.ivento.service.exception.UserNotFoundException;
 import com.web.springboot.ivento.service.user.UserServiceImpl;
+import com.web.springboot.ivento.utils.MessageUtils;
 
 /**
  * @author mokht
