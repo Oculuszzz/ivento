@@ -6,6 +6,8 @@ package com.web.springboot.ivento.payload.response;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import com.web.springboot.ivento.model.ProductEntity;
+
 /**
  * @author mokht
  *
@@ -31,6 +33,20 @@ public class ProductResponse {
 	 */
 	public ProductResponse() {
 		super();
+	}
+
+	/**
+	 * 
+	 */
+	public ProductResponse(ProductEntity entity) {
+
+		this.setId(entity.getId());
+		this.setProductCode(entity.getProductCode());
+		this.setName(entity.getName());
+		this.setBrand(entity.getBrand());
+		this.setPrice(entity.getPrice());
+		this.setQuantity(entity.getQuantity());
+		this.setLastUpdate(entity.getLastUpdate());
 	}
 
 	/**
