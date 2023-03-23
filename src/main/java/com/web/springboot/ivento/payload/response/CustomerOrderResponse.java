@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
+import com.web.springboot.ivento.model.CustomerOrderEntity;
 import com.web.springboot.ivento.model.EOrderStatus;
 
 /**
@@ -40,6 +41,24 @@ public class CustomerOrderResponse {
 	 */
 	public CustomerOrderResponse() {
 		super();
+	}
+
+	/**
+	 * 
+	 */
+	public CustomerOrderResponse(CustomerOrderEntity entity) {
+
+		this.setId(entity.getId());
+		this.setName(entity.getName());
+		this.setPhoneNumber(entity.getPhoneNumber());
+		this.setAddress(entity.getAddress());
+		this.setCompanyName(entity.getCompanyName());
+		this.setCompanyAddress(entity.getCompanyAddress());
+		this.setStatus(entity.getStatus());
+		this.setTotalPrice(entity.getTotalPrice());
+		this.setLastUpdate(entity.getLastUpdate());
+		this.setProducts(entity.getOrderedProducts().stream().map(OrderedProductResponse::new).toList());
+
 	}
 
 	/**

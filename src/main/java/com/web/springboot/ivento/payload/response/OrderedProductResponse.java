@@ -5,6 +5,8 @@ package com.web.springboot.ivento.payload.response;
 
 import java.util.Objects;
 
+import com.web.springboot.ivento.model.OrderedProductEntity;
+
 /**
  * @author mokht
  *
@@ -32,6 +34,22 @@ public class OrderedProductResponse {
 	 */
 	public OrderedProductResponse() {
 		super();
+	}
+
+	/**
+	 * 
+	 */
+	public OrderedProductResponse(OrderedProductEntity productEntity) {
+
+		this.setId(productEntity.getId());
+		this.setProductId(productEntity.getProductId());
+		this.setProductCode(productEntity.getProductCode());
+		this.setName(productEntity.getName());
+		this.setBrand(productEntity.getBrand());
+		this.setQuantity(productEntity.getQuantity());
+		this.setPrice(productEntity.getQuantity());
+		this.setTotalPrice(productEntity.getTotalPrice());
+
 	}
 
 	/**
