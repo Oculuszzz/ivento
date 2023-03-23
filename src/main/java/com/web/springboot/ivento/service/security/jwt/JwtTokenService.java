@@ -17,9 +17,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.web.springboot.ivento.model.JwtTokenEntity;
+import com.web.springboot.ivento.properties.Literals;
 import com.web.springboot.ivento.repository.JwtTokenRepository;
+import com.web.springboot.ivento.service.exception.TokenRefreshException;
 import com.web.springboot.ivento.service.security.UserDetailsImpl;
 import com.web.springboot.ivento.service.user.UserServiceImpl;
+import com.web.springboot.ivento.utils.MessageUtils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -56,13 +59,18 @@ public class JwtTokenService {
 
 	private final UserServiceImpl userServiceImpl;
 
+	private final MessageUtils messageUtils;
+
 	/**
 	 * @param jwtTokenRepository
 	 * @param userServiceImpl
+	 * @param messageUtils
 	 */
-	public JwtTokenService(JwtTokenRepository jwtTokenRepository, UserServiceImpl userServiceImpl) {
+	public JwtTokenService(JwtTokenRepository jwtTokenRepository, UserServiceImpl userServiceImpl,
+			MessageUtils messageUtils) {
 		this.jwtTokenRepository = jwtTokenRepository;
 		this.userServiceImpl = userServiceImpl;
+		this.messageUtils = messageUtils;
 	}
 
 	public String generateJWTToken(UserDetailsImpl userDetails) {
@@ -168,19 +176,32 @@ public class JwtTokenService {
 
 			logger.error(String.format("JwtUtils.validateJWTToken() : Refresh Token is expired - %s", e.getMessage()));
 
+			// Throw Refresh Token Expired
+			throw new TokenRefreshException(refreshToken,
+					messageUtils.getMessage(Literals.ERROR_REFRESH_TOKEN_EXPIRED));
+
 		} catch (UnsupportedJwtException e) {
 
 			logger.error(String.format("JwtUtils.validateJWTToken() : Unsupported Refresh Token - %s", e.getMessage()));
+
+			throw new TokenRefreshException(refreshToken,
+					messageUtils.getMessage(Literals.ERROR_INVALID_REFRESH_TOKEN));
 
 		} catch (MalformedJwtException e) {
 
 			logger.error(
 					String.format("JwtUtils.validateJWTToken() : Invalid Refresh Token format - %s", e.getMessage()));
 
+			throw new TokenRefreshException(refreshToken,
+					messageUtils.getMessage(Literals.ERROR_INVALID_REFRESH_TOKEN));
+
 		} catch (IllegalArgumentException e) {
 
 			logger.error(
 					String.format("JwtUtils.validateJWTToken() : Invalid Refresh Token argument - %s", e.getMessage()));
+
+			throw new TokenRefreshException(refreshToken,
+					messageUtils.getMessage(Literals.ERROR_INVALID_REFRESH_TOKEN));
 
 		}
 
