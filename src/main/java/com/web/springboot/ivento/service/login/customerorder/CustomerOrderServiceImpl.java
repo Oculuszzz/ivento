@@ -19,7 +19,6 @@ import com.web.springboot.ivento.payload.response.CustomerOrderResponse;
 import com.web.springboot.ivento.payload.response.ProductResponse;
 import com.web.springboot.ivento.properties.Literals;
 import com.web.springboot.ivento.repository.CustomerOrderRepository;
-import com.web.springboot.ivento.service.exception.CustomerOrderException;
 import com.web.springboot.ivento.service.exception.CustomerOrderNotFound;
 import com.web.springboot.ivento.service.exception.ProductNotFoundException;
 import com.web.springboot.ivento.service.product.ProductServiceImpl;
@@ -69,8 +68,7 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
 	}
 
 	@Override
-	public Boolean updateCustomerOrder(CustomerOrderRequest customerOrderRequest)
-			throws CustomerOrderException, ProductNotFoundException {
+	public Boolean updateCustomerOrder(CustomerOrderRequest customerOrderRequest) {
 
 		// TODO : Implement update customer order
 
