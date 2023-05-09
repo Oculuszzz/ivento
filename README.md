@@ -6,14 +6,14 @@ Feel free to visit the live application
 https://invento-oculuszzz.netlify.app
 
 
-# Tools & Libraries
+## Tools & Libraries
 * Java 17 or above
 * Spring boot - V 3.0.4
 * PgAdmin4 (PostgreSQL) - Database
 * Postman API/OpenUi (Swagger-Ui)
 
 
-# Externalized Configuration
+## Externalized Configuration
 
 Feel free to modify/change the configuration for application properties or DB configuration which located at
 <br>
@@ -27,15 +27,23 @@ Open http://localhost:8091 to view it in the browser.
 
 The page will reload if you make edits.
 
-# Rest APIs and Schemas Defination
+## Overall Operations Available in Invento
+
+### Admin Role
+![Admin-Role](/images/Admin-Role.png) <br /><br />
+
+### User Role
+![User-Role](/images/User-Role.png) <br /><br />
+
+## Rest APIs and Schemas Defination
 
 There is various of Rest APIs for User, Product, and Customer order. 
 <br /><br /> ![Swagger-ui-Api.png](/images/Swagger-ui-Api.png) <br /><br />
 
-## Authentification APIs
+### Authentification APIs
 ![Swagger-ui-Api-refresh-token.png](/images/Swagger-ui-Api-refresh-token.png) <br /><br />
 
-### 1. POST API "/api/auth/authenticate"
+#### 1. POST API "/api/auth/authenticate"
 
 Request schema in body:
 ```js
@@ -61,7 +69,7 @@ Response schema in body - Code 200:
 }
 ```
 
-### 2. POST API "/api/auth/refreshtoken"
+#### 2. POST API "/api/auth/refreshtoken"
 
 Request schema in body:
 ```js
@@ -86,8 +94,8 @@ Response schema in body - Code 200:
 }
 ```
 
-## Users APIs
-### 1. POST API "/api/auth/users/add-new-user" - **Required to login first and contain header - ROLE ADMIN**
+### Users APIs
+#### 1. POST API "/api/auth/users/add-new-user" - **Required to login first and contain header - ROLE ADMIN**
 ![Swagger-ui-Api-user.png](/images/Swagger-ui-Api-user.png) <br /><br />
 
 Request schema in body:
@@ -111,7 +119,7 @@ Response schema
 }
 ```
 
-### 2. PUT API "/api/auth/users/update-user" - **Required to login first and contain header - ROLE ADMIN**
+#### 2. PUT API "/api/auth/users/update-user" - **Required to login first and contain header - ROLE ADMIN**
 
 Request schema in body:
 ```js
@@ -135,7 +143,7 @@ Response schema
 ```
 
 
-### 3. PUT API "/api/auth/users/enable-account" - **Required to login first and contain header - ROLE ADMIN**
+#### 3. PUT API "/api/auth/users/enable-account" - **Required to login first and contain header - ROLE ADMIN**
 
 Request schema in body:
 ```js
@@ -152,7 +160,7 @@ Response schema
 }
 ```
 
-### 4. PUT API "/api/auth/users/disable-account" - **Required to login first and contain header - ROLE ADMIN**
+#### 4. PUT API "/api/auth/users/disable-account" - **Required to login first and contain header - ROLE ADMIN**
 
 Request schema in body:
 ```js
@@ -169,7 +177,7 @@ Response schema
 }
 ```
 
-### 5. GET API "/api/auth/users" - **Required to login first and contain header - ROLE ADMIN**
+#### 5. GET API "/api/auth/users" - **Required to login first and contain header - ROLE ADMIN**
 
 Request schema in body:
 ```js
@@ -205,7 +213,7 @@ Response schema
 }
 ```
 
-### 6. GET API "/api/auth/users" - **Required to login first and contain header - ROLE ADMIN**
+#### 6. GET API "/api/auth/users" - **Required to login first and contain header - ROLE ADMIN**
 
 Request schema in body:
 ```js
@@ -241,7 +249,7 @@ Response schema
 }
 ```
 
-### 7. GET API "/api/auth/user?id=5" - **Required to login first and contain header - ROLE ADMIN**
+#### 7. GET API "/api/auth/user?id=5" - **Required to login first and contain header - ROLE ADMIN**
 
 Request schema in body:
 ```js
@@ -265,16 +273,16 @@ Response schema
 }
 ```
 
-## Product APIs
+### Product APIs
 ![Swagger-ui-Api-product.png](/images/Swagger-ui-Api-product.png) <br /><br />
 
-## Customer Order APIs
+### Customer Order APIs
 ![Swagger-ui-Api-customer-order-controller.png](/images/Swagger-ui-Api-customer-order-controller.png) <br /><br />
 
-# Definition Tables 
+## Definition Tables 
 <br /><br /> ![images/Ivento entitites diagram.png](/images/Ivento%20entitites%20diagram.png) <br /><br />
 
-## 1. USERS Table
+### 1. USERS Table
 | Coloumn | Description |
 | --- | --- |
 | id | User Id |
@@ -287,7 +295,7 @@ Response schema
 | last_logged_in | User last login (Timestamp format) |
 | last_updated | User last update (Timestamp format) |
 
-## 2. JWT_TOKEN Table
+### 2. JWT_TOKEN Table
 | Coloumn | Description |
 | --- | --- |
 | id | JWT token id |
@@ -296,7 +304,7 @@ Response schema
 | last_update | Last update of JWT token (Timestamp format) |
 | user_id | Foreign key of user id from USERS table |
 
-## 3. PRODUCTS Table
+### 3. PRODUCTS Table
 | Coloumn | Description |
 | --- | --- |
 | id | Product Id |
@@ -307,7 +315,7 @@ Response schema
 | quantity | Total quantity of product in stock |
 | last_update | Product last update (Timestamp format) |
 
-## 4. CUSTOMER_ORDER Table
+### 4. CUSTOMER_ORDER Table
 | Coloumn | Description |
 | --- | --- |
 | id | Customer order Id |
@@ -320,7 +328,7 @@ Response schema
 | status | Status order |
 | last_update | Customer order last update (Timestamp format) |
 
-## 5. ORDERED_PRODUCT Table
+### 5. ORDERED_PRODUCT Table
 | Coloumn | Description |
 | --- | --- |
 | id | Ordered product id |
@@ -332,13 +340,13 @@ Response schema
 | total_price | Ordered product total price |
 | product_id | Foreign key of product id from PRODUCTS table |
 
-## 6. CUSTOMER_ORDERED_PRODUCT Table
+### 6. CUSTOMER_ORDERED_PRODUCT Table
 | Coloumn | Description |
 | --- | --- |
 | customer_order_id | Foreign key of customer order id from CUSTOMER_ORDER table |
 | product_id | Foreign key of ordered product id from ORDERED_PRODUCT table |
 
-# Related notes
+## Related notes
 
 Spring Security <br>
 https://docs.spring.io/spring-security/reference/index.html
