@@ -32,7 +32,9 @@ The page will reload if you make edits.
 There is various of Rest APIs for User, Product, and Customer order. 
 <br /><br /> ![Swagger-ui-Api.png](/images/Swagger-ui-Api.png) <br /><br />
 
-## Users APIs
+## Authentification APIs
+![Swagger-ui-Api-refresh-token.png](/images/Swagger-ui-Api-refresh-token.png) <br /><br />
+
 ### 1. POST API "/api/auth/authenticate"
 
 Request schema in body:
@@ -86,6 +88,7 @@ Response schema in body - Code 200:
 
 ## Users APIs
 ### 1. POST API "/api/auth/users/add-new-user" - **Required to login first and contain header - ROLE ADMIN**
+![Swagger-ui-Api-user.png](/images/Swagger-ui-Api-user.png) <br /><br />
 
 Request schema in body:
 ```js
@@ -262,6 +265,11 @@ Response schema
 }
 ```
 
+## Product APIs
+![Swagger-ui-Api-product.png](/images/Swagger-ui-Api-product.png) <br /><br />
+
+## Customer Order APIs
+![Swagger-ui-Api-customer-order-controller.png](/images/Swagger-ui-Api-customer-order-controller.png) <br /><br />
 
 # Definition Tables 
 <br /><br /> ![images/Ivento entitites diagram.png](/images/Ivento%20entitites%20diagram.png) <br /><br />
